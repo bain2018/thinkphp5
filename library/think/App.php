@@ -400,7 +400,7 @@ class App
     private static function getParamValue($param, &$vars, $type)
     {
         $name  = $param->getName();
-        $class = $param->getClass();
+        $class = $param->getType();
 
         if ($class) {
             $className = $class->getName();
