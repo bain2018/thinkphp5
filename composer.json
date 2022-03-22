@@ -1,6 +1,6 @@
 {
-    "name": "topthink/framework",
-    "description": "the new thinkphp framework",
+    "name": "bain2018/framework",
+    "description": "基于thinkphp5.0.24版本的bug修复",
     "type": "think-framework",
     "keywords": [
         "framework",
