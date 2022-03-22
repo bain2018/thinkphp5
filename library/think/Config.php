@@ -11,6 +11,8 @@
 
 namespace think;
 
+use app\api\service\facade\Redis;
+
 class Config
 {
     /**
@@ -129,6 +131,27 @@ class Config
         // 非二级配置时直接返回
         if (!strpos($name, '.')) {
             $name = strtolower($name);
+            if ($name=='site')
+            {
+                $json=Redis::get("site");
+                $site=json_decode($json,true);
+                if (!$site)
+                {
+                    $site = [];
+                    foreach (\app\common\model\Config::all() as $k => $v) {
+                        $value = $v->toArray();
+                        if (in_array($value['type'], ['selects', 'checkbox', 'images', 'files'])) {
+                            $value['value'] = explode(',', $value['value']);
+                        }
+                        if ($value['type'] == 'array') {
+                            $value['value'] = (array)json_decode($value['value'], true);
+                        }
+                        $site[$value['name']] = $value['value'];
+                    }
+                    Redis::set("site",jsonEncode($site));
+                }
+                return $site;
+            }
             return isset(self::$config[$range][$name]) ? self::$config[$range][$name] : null;
         }
 
@@ -137,11 +160,32 @@ class Config
         $name[0] = strtolower($name[0]);
 
         if (!isset(self::$config[$range][$name[0]])) {
-            // 动态载入额外配置
-            $module = Request::instance()->module();
-            $file   = CONF_PATH . ($module ? $module . DS : '') . 'extra' . DS . $name[0] . CONF_EXT;
-
-            is_file($file) && self::load($file, $name[0]);
+            if ($name[0]=='site')
+            {
+                $json=Redis::get("site");
+                $site=json_decode($json,true);
+                if (!$site)
+                {
+                    $site = [];
+                    foreach (\app\common\model\Config::all() as $k => $v) {
+                        $value = $v->toArray();
+                        if (in_array($value['type'], ['selects', 'checkbox', 'images', 'files'])) {
+                            $value['value'] = explode(',', $value['value']);
+                        }
+                        if ($value['type'] == 'array') {
+                            $value['value'] = (array)json_decode($value['value'], true);
+                        }
+                        $site[$value['name']] = $value['value'];
+                    }
+                    Redis::set("site",jsonEncode($site));
+                }
+                self::set($site, $name[0]);
+            }else{
+                // 动态载入额外配置
+                $module = Request::instance()->module();
+                $file   = CONF_PATH . ($module ? $module . DS : '') . 'extra' . DS . $name[0] . CONF_EXT;
+                is_file($file) && self::load($file, $name[0]);
+            }
         }
 
         return isset(self::$config[$range][$name[0]][$name[1]]) ?
