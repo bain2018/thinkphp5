@@ -495,7 +495,9 @@ class Query
             }
             if (1 == $pdo->columnCount()) {
                 $result = $pdo->fetchAll(PDO::FETCH_COLUMN);
-            } else {
+            }
+            else {
+                $result = [];
                 $resultSet = $pdo->fetchAll(PDO::FETCH_ASSOC);
                 if ($resultSet) {
                     $fields = array_keys($resultSet[0]);
@@ -515,10 +517,9 @@ class Query
                             $result[$val[$key]] = $val[$key1];
                         }
                     }
-                } else {
-                    $result = [];
                 }
             }
+
             if (isset($cache) && isset($guid)) {
                 // 缓存数据
                 $this->cacheData($guid, $result, $cache);

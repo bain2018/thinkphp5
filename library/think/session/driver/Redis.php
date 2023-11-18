@@ -37,12 +37,13 @@ class Redis extends SessionHandler
     /**
      * 打开Session
      * @access public
-     * @param string $savePath
-     * @param mixed  $sessName
+     * @param string $path
+     * @param string $name
      * @return bool
      * @throws Exception
+     * @throws \RedisException
      */
-    public function open($savePath, $sessName)
+    public function open(string $path, string $name): bool
     {
         // 检测php环境
         if (!extension_loaded('redis')) {
@@ -69,7 +70,7 @@ class Redis extends SessionHandler
      * 关闭Session
      * @access public
      */
-    public function close()
+    public function close():bool
     {
         $this->gc(ini_get('session.gc_maxlifetime'));
         $this->handler->close();
@@ -80,48 +81,49 @@ class Redis extends SessionHandler
     /**
      * 读取Session
      * @access public
-     * @param string $sessID
+     * @param string $id
      * @return string
      */
-    public function read($sessID)
+    public function read(string $id): string|false
     {
-        return (string) $this->handler->get($this->config['session_name'] . $sessID);
+        return (string) $this->handler->get($this->config['session_name'] . $id);
     }
 
     /**
      * 写入Session
      * @access public
-     * @param string $sessID
-     * @param String $sessData
+     * @param string $id
+     * @param String $data
      * @return bool
      */
-    public function write($sessID, $sessData)
+    public function write(string $id, string $data): bool
     {
         if ($this->config['expire'] > 0) {
-            return $this->handler->setex($this->config['session_name'] . $sessID, $this->config['expire'], $sessData);
+            return $this->handler->setex($this->config['session_name'] . $id, $this->config['expire'], $data);
         } else {
-            return $this->handler->set($this->config['session_name'] . $sessID, $sessData);
+            return $this->handler->set($this->config['session_name'] . $id, $data);
         }
     }
 
     /**
      * 删除Session
      * @access public
-     * @param string $sessID
+     * @param string $id
      * @return bool
+     * @throws \RedisException
      */
-    public function destroy($sessID)
+    public function destroy(string $id): bool
     {
-        return $this->handler->delete($this->config['session_name'] . $sessID) > 0;
+        return $this->handler->del($this->config['session_name'] . $id) > 0;
     }
 
     /**
      * Session 垃圾回收
      * @access public
-     * @param string $sessMaxLifeTime
-     * @return bool
+     * @param int $max_lifetime
+     * @return int|false
      */
-    public function gc($sessMaxLifeTime)
+    public function gc(int $max_lifetime): int|false
     {
         return true;
     }

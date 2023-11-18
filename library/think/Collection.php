@@ -360,7 +360,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $offset 键名
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->items);
     }
@@ -371,7 +371,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $offset 键名
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->items[$offset];
     }
@@ -383,7 +383,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $value  值
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->items[] = $value;
@@ -398,7 +398,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $offset 键名
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
     }
@@ -408,7 +408,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @access public
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
@@ -418,7 +418,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @access public
      * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator():ArrayIterator
     {
         return new ArrayIterator($this->items);
     }
@@ -426,9 +426,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * 将数据反序列化成数组
      * @access public
-     * @return array
+     * @return mixed
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
@@ -439,7 +439,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  integer $options json 参数
      * @return string
      */
-    public function toJson($options = JSON_UNESCAPED_UNICODE)
+    public function toJson($options = JSON_UNESCAPED_UNICODE): string
     {
         return json_encode($this->toArray(), $options);
     }

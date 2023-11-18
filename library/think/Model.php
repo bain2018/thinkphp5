@@ -2268,28 +2268,28 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     }
 
     // JsonSerializable
-    public function jsonSerialize():array
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
 
     // ArrayAccess
-    public function offsetSet($name, $value)
+    public function offsetSet($name, $value): void
     {
         $this->setAttr($name, $value);
     }
 
-    public function offsetExists($name)
+    public function offsetExists($name): bool
     {
         return $this->__isset($name);
     }
 
-    public function offsetUnset($name)
+    public function offsetUnset($name): void
     {
         $this->__unset($name);
     }
 
-    public function offsetGet($name)
+    public function offsetGet($name):mixed
     {
         return $this->getAttr($name);
     }
