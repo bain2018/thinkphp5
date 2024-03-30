@@ -201,7 +201,7 @@ class Lang
         } elseif (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             // 自动侦测浏览器语言
             preg_match('/^([a-z\d\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
-            $langSet     = strtolower($matches[1]);
+            $langSet     = strtolower($matches[1] ?? '');
             $acceptLangs = Config::get('header_accept_lang');
 
             if (isset($acceptLangs[$langSet])) {
@@ -211,7 +211,7 @@ class Lang
             }
         }
 
-        if (preg_match('/^([a-z\d\-]+)/i', $langSet, $matches)) {
+        if (preg_match('/^([a-z0-9\-_]{2,10})$/i', $langSet, $matches)) {
             $langSet = strtolower($matches[1]);
         } else {
             $langSet = self::$range;

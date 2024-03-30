@@ -211,7 +211,7 @@ class MorphOne extends Relation
 
         $model = new $this->model();
 
-        return $model->save() ? $model : false;
+        return $model->save($data) ? $model : false;
     }
 
     /**

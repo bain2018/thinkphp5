@@ -931,7 +931,7 @@ class Validate
         if (is_string($rule) && strpos($rule, ',')) {
             list($rule, $param) = explode(',', $rule);
         } elseif (is_array($rule)) {
-            $param = isset($rule[1]) ? $rule[1] : 0;
+            $param = $rule[1] ?? 0;
             $rule  = $rule[0];
         } else {
             $param = 0;

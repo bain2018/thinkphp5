@@ -925,11 +925,11 @@ class Template
                                     $args[1] = str_replace('###', $name, $args[1]);
                                     $name    = "$fun($args[1])";
                                 } else {
-                                    $name = "$fun($name,$args[1])";
+                                    $name = "$fun($name ?? '',$args[1])";
                                 }
                             } else {
                                 if (!empty($args[0])) {
-                                    $name = "$fun($name)";
+                                    $name = "$fun($name ?? '')";
                                 }
                             }
                         }

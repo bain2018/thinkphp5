@@ -38,8 +38,8 @@ trait Jump
     {
         if (is_null($url) && !is_null(Request::instance()->server('HTTP_REFERER'))) {
             $url = Request::instance()->server('HTTP_REFERER');
-        } elseif ('' !== $url && !strpos($url, '://') && 0 !== strpos($url, '/')) {
-            $url = Url::build($url);
+        } elseif ('' !== $url && !strpos($url ?? '', '://') && 0 !== strpos($url ?? '', '/')) {
+            $url = Url::build($url ?? '');
         }
 
         $type = $this->getResponseType();

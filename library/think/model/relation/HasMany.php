@@ -164,7 +164,7 @@ class HasMany extends Relation
             }
         }
         $localKey = $this->localKey ?: $this->parent->getPk();
-        return $this->query->whereExp($this->foreignKey, '=' . $this->parent->getTable() . '.' . $localKey)->fetchSql()->count();
+        return $this->query->alias( 'count_table')->whereExp( 'count_table.' . $this->foreignKey, '=' . $this->parent->getTable() . '.' . $localKey)->fetchSql()->count();
     }
 
     /**

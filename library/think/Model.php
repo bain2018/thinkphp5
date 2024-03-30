@@ -1267,10 +1267,18 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             $data = $this->data;
         } else {
             $data = array_udiff_assoc($this->data, $this->origin, function ($a, $b) {
+                if (is_numeric($a) && is_numeric($b)) {
+                    if (strcmp($a, $b) !== 0) {
+                        return 1;
+                    }
+                    if ($a == $b) {
+                        return 0;
+                    }
+                }
                 if ((empty($a) || empty($b)) && $a !== $b) {
                     return 1;
                 }
-                return is_object($a) || $a != $b ? 1 : 0;
+                return is_object($a) || $a !== $b ? 1 : 0;
             });
         }
 
@@ -2268,27 +2276,32 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     }
 
     // JsonSerializable
+    #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
 
     // ArrayAccess
+    #[\ReturnTypeWillChange]
     public function offsetSet($name, $value): void
     {
         $this->setAttr($name, $value);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($name): bool
     {
         return $this->__isset($name);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($name): void
     {
         $this->__unset($name);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($name):mixed
     {
         return $this->getAttr($name);

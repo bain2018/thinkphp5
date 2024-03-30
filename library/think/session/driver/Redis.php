@@ -38,12 +38,12 @@ class Redis extends SessionHandler
      * 打开Session
      * @access public
      * @param string $path
-     * @param string $name
+     * @param mixed $name
      * @return bool
      * @throws Exception
      * @throws \RedisException
      */
-    public function open(string $path, string $name): bool
+    public function open(string $path, mixed $name): bool
     {
         // 检测php环境
         if (!extension_loaded('redis')) {

@@ -360,6 +360,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $offset 键名
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->items);
@@ -371,6 +372,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $offset 键名
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
     {
         return $this->items[$offset];
@@ -383,6 +385,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $value  值
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
@@ -398,6 +401,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param  mixed $offset 键名
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
@@ -408,6 +412,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @access public
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count(): int
     {
         return count($this->items);
@@ -418,6 +423,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @access public
      * @return ArrayIterator
      */
+    #[\ReturnTypeWillChange]
     public function getIterator():ArrayIterator
     {
         return new ArrayIterator($this->items);
@@ -428,6 +434,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @access public
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
         return $this->toArray();

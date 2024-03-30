@@ -1,6 +1,6 @@
 {
     "name": "bain2018/framework",
-    "description": "基于thinkphp5.0.24版本的bug修复",
+    "description": "基于thinkphp5.0.26版本的bug修复",
     "type": "bain2018-framework",
     "keywords": [
         "framework",

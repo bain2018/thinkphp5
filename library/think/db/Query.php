@@ -480,6 +480,7 @@ class Query
             $result = Cache::get($guid);
         }
         if (false === $result) {
+            $result = [];
             if (isset($this->options['field'])) {
                 unset($this->options['field']);
             }
@@ -495,9 +496,7 @@ class Query
             }
             if (1 == $pdo->columnCount()) {
                 $result = $pdo->fetchAll(PDO::FETCH_COLUMN);
-            }
-            else {
-                $result = [];
+            } else {
                 $resultSet = $pdo->fetchAll(PDO::FETCH_ASSOC);
                 if ($resultSet) {
                     $fields = array_keys($resultSet[0]);
@@ -517,9 +516,10 @@ class Query
                             $result[$val[$key]] = $val[$key1];
                         }
                     }
+                } else {
+                    $result = [];
                 }
             }
-
             if (isset($cache) && isset($guid)) {
                 // 缓存数据
                 $this->cacheData($guid, $result, $cache);
@@ -1993,7 +1993,7 @@ class Query
     {
         if (0 === strpos($type, 'set') || 0 === strpos($type, 'enum')) {
             $bind = PDO::PARAM_STR;
-        } elseif (preg_match('/(int|real|numeric|serial|bit)/is', $type)) {
+        } elseif (preg_match('/(int|double|float|decimal|real|numeric|serial|bit)/is', $type)) {
             $bind = PDO::PARAM_INT;
         } elseif (preg_match('/bool/is', $type)) {
             $bind = PDO::PARAM_BOOL;

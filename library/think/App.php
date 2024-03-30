@@ -400,10 +400,10 @@ class App
     private static function getParamValue($param, &$vars, $type)
     {
         $name  = $param->getName();
-        $class = $param->getType();
+        $reflectionType = $param->getType();
 
-        if ($class) {
-            $className = $class->getName();
+        if ($reflectionType && $reflectionType->isBuiltin() === false) {
+            $className = $reflectionType->getName();
             $bind      = Request::instance()->$name;
 
             if ($bind instanceof $className) {
