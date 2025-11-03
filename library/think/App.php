@@ -74,7 +74,7 @@ class App
      * @return Response
      * @throws Exception
      */
-    public static function run(Request $request = null)
+    public static function run(Request $request): Response
     {
         $request = is_null($request) ? Request::instance() : $request;
 
@@ -82,9 +82,7 @@ class App
             $config = self::initCommon();
 
             // 模块/控制器绑定
-            if (defined('BIND_MODULE')) {
-                BIND_MODULE && Route::bind(BIND_MODULE);
-            } elseif ($config['auto_bind_module']) {
+            if (defined('BIND_MODULE')) {BIND_MODULE && Route::bind(BIND_MODULE);} elseif ($config['auto_bind_module']) {
                 // 入口自动绑定
                 $name = pathinfo($request->baseFile(), PATHINFO_FILENAME);
                 if ($name && 'index' != $name && is_dir(APP_PATH . $name)) {
