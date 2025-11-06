@@ -406,7 +406,7 @@ abstract class Connection
      * @throws PDOException
      * @throws \Exception
      */
-    public function execute($sql, $bind = [], Query $query = null)
+    public function execute($sql, $bind = [], ?Query $query = null)
     {
         $this->initConnect(true);
         if (!$this->linkID) {
@@ -617,9 +617,6 @@ abstract class Connection
             }
             $this->commit();
             return $result;
-        } catch (\Exception $e) {
-            $this->rollback();
-            throw $e;
         } catch (\Throwable $e) {
             $this->rollback();
             throw $e;
@@ -649,19 +646,14 @@ abstract class Connection
                 );
             }
 
-        } catch (\Exception $e) {
-            if ($this->isBreak($e)) {
-                --$this->transTimes;
-                return $this->close()->startTrans();
-            }
-            throw $e;
-        } catch (\Error $e) {
+        } catch (\Throwable $e) {
             if ($this->isBreak($e)) {
                 --$this->transTimes;
                 return $this->close()->startTrans();
             }
             throw $e;
         }
+        return false;
     }
 
     /**
@@ -738,7 +730,7 @@ abstract class Connection
      * @param array $sqlArray SQL批处理指令
      * @return boolean
      */
-    public function batchQuery($sqlArray = [], $bind = [], Query $query = null)
+    public function batchQuery($sqlArray = [], $bind = [], ?Query $query = null)
     {
         if (!is_array($sqlArray)) {
             return false;
