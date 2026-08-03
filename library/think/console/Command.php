@@ -45,7 +45,7 @@ class Command
      * @throws \LogicException
      * @api
      */
-    public function __construct($name = null)
+    public function __construct(?string $name = null)
     {
         $this->definition = new Definition();
 
@@ -72,7 +72,7 @@ class Command
      * 设置控制台
      * @param Console $console
      */
-    public function setConsole(Console $console = null)
+    public function setConsole(?Console $console = null)
     {
         $this->console = $console;
     }
@@ -276,7 +276,7 @@ class Command
      * @param mixed  $default     默认值
      * @return Command
      */
-    public function addArgument($name, $mode = null, $description = '', $default = null)
+    public function addArgument($name,?int $mode = null, string $description = '', mixed $default = null)
     {
         $this->definition->addArgument(new Argument($name, $mode, $description, $default));
 

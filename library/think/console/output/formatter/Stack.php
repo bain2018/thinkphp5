@@ -22,13 +22,13 @@ class Stack
     /**
      * @var Style
      */
-    private $emptyStyle;
+    private ?Style $emptyStyle;
 
     /**
      * 构造方法
      * @param Style|null $emptyStyle
      */
-    public function __construct(Style $emptyStyle = null)
+    public function __construct(?Style $emptyStyle = null)
     {
         $this->emptyStyle = $emptyStyle ?: new Style();
         $this->reset();
@@ -57,7 +57,7 @@ class Stack
      * @return Style
      * @throws \InvalidArgumentException
      */
-    public function pop(Style $style = null)
+    public function pop(?Style $style = null)
     {
         if (empty($this->styles)) {
             return $this->emptyStyle;

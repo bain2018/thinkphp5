@@ -31,7 +31,7 @@ class Argument
      * @param mixed  $default     默认值 (仅 self::OPTIONAL 类型有效)
      * @throws \InvalidArgumentException
      */
-    public function __construct($name, $mode = null, $description = '', $default = null)
+    public function __construct($name, $mode = null, $description = '', mixed $default = null)
     {
         if (null === $mode) {
             $mode = self::OPTIONAL;
@@ -78,7 +78,7 @@ class Argument
      * @param mixed $default 默认值
      * @throws \LogicException
      */
-    public function setDefault($default = null)
+    public function setDefault(mixed $default = null)
     {
         if (self::REQUIRED === $this->mode && null !== $default) {
             throw new \LogicException('Cannot set a default value except for InputArgument::OPTIONAL mode.');
